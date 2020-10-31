@@ -5,7 +5,17 @@
 #https://linuxconfig.org/bash-scripting-tutorial-for-beginners#h17-1-for-loop
 
 function backup {
+    #This if statement uses the -z bash option to check if the positional parameter
+    #$1 contains any value. It returns true if the string $1 is 0. If it is, the $user
+    #variable is initialized to the current user's name. The else-if block below checks
+    #if the user's home directory exists. The ! negates the effect. So, if the directory
+    #doesn't exist, an error message is printed. Then, the exit command is used to cause
+    #termination of the script.
     
+    #I think that this if and else-if block is interesting in that in bash a -z string
+    #is used to return true if the string is null, which is an empty string. I also find
+    #the -d and the ! in the else-if to be interesting in that -d is used in bash to check
+    #if a user's directory exists and the ! negates the effect.
     if [ -z $1 ]; then
         user=$(whoami)
     else 
@@ -55,6 +65,16 @@ function backup {
     echo "Directories archived: $arch_directories"
 
     #if-else for repsonse to user stating completion or failure
+    
+    #This if-else checks to see if the number of source files is equal to
+    #the number of archived files. If they are, a backup is performed and
+    #the directory, date and time are shown. If they are not equal, a message
+    #is printed that the backup failed.
+    
+    #I find the syntax of this if statement to be interesting in that it uses
+    #square brackets instead of parentheses, and that -eq is the conditional
+    #to say equal to. Also, a semicolon is needed at the end of the if header.
+    #All of these things make it different than Java.
     if [ $src_files -eq $arch_files ]; then
         echo "Backup of $input completed!"
         echo "Details about the output backup file:"
@@ -65,6 +85,12 @@ function backup {
 }
  
 #for command to backup directories
+
+#This for loop performs a backup function for every user directory supplied
+#as an argument.
+
+#I find this for loop interesting in that it requires a semicolon at the end
+#of the header. This makes it stand out from Java.
 for directory in $*; do
     backup $directory
 done;
